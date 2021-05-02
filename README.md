@@ -12,3 +12,10 @@ vaccine.pincode: 411001,411002
 vaccine.type: COVAXIN/COVISHIELD/ANY  
 vaccine.minAge: 18/45  
 vaccine.cost: FREE/PAID/ANY
+
+<h2>How would you be notified of the new slots ? </h2>
+
+When you run this app locally as jar, You will resceive alarm sound when a vaccine is available for you criteria.  
+After that, whenever there is a change in response - Addition of new vaccine slots or updates, you will receive new notification.  
+
+You can keep the application running in the background 
