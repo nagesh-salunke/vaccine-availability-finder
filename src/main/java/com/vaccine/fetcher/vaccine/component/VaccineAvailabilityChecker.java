@@ -32,6 +32,9 @@ public class VaccineAvailabilityChecker {
   @Resource
   private VaccineAvailabilityEngine vaccineAvailabilityEngine;
 
+  //storing previous vaccine sessions in state
+  private List<AvailableVaccineSession> previousVaccineSessions = new ArrayList<>();
+
   //query every minute
   @Scheduled(fixedRateString = "60000")
   public void checkVaccineInformation() {
@@ -48,10 +51,19 @@ public class VaccineAvailabilityChecker {
 
         availableVaccineSessions.addAll(vaccineAvailabilityEngine.findSessions(availabilityResponse.getCenters()));
       }
-      logger.info("For pincode {} below are the sessions as per your criteria {}", pinCode,
-          availableVaccineSessions);
-      //use available session to notify about the availability
+
+      if(!compareResult(availableVaccineSessions)) {
+        logger.info("For pincode {} below are the sessions as per your criteria {}", pinCode,
+            availableVaccineSessions);
+        previousVaccineSessions = availableVaccineSessions;
+      }else {
+        logger.info("Nothing changed for vaccine sessions from last query for  {}", pinCode);
+      }
     }
+  }
+
+  private boolean compareResult(List<AvailableVaccineSession> availableVaccineSessions) {
+    return availableVaccineSessions.equals(previousVaccineSessions);
   }
 
   //4 weeks
