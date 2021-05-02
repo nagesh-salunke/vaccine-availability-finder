@@ -1,6 +1,9 @@
+<h1>Use Jar</h1>
+ - Build Jar / Download from : TBD
+
 <h1>How to run the App</h1>
 
-java -jar target/vaccine-alert-0.0.1-SNAPSHOT.jar --vaccine.pincodes=411045 --vaccine.cost=FREE --vaccine.minAge=18
+java -jar vaccine-alert-0.0.1-SNAPSHOT.jar --vaccine.pincodes=411045 --vaccine.cost=FREE --vaccine.minAge=18
 
 <h2>Parameter Formats</h2>
 
