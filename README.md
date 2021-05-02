@@ -1,7 +1,8 @@
-<h1>Use Jar</h1>
- - Build Jar / Download from : TBD
+<h1>Using docker</h1>
 
-<h1>How to run the App</h1>
+docker run  -e "vaccine.pincodes=411045" -e "vaccine.minAge=18"  nsalunke/vaccine-alert:latest
+
+<h1>How to run the App Locally with JAR</h1>
 
 java -jar vaccine-alert-0.0.1-SNAPSHOT.jar --vaccine.pincodes=411045 --vaccine.cost=FREE --vaccine.minAge=18
 
