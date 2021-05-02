@@ -1,5 +1,6 @@
 package com.vaccine.fetcher.vaccine.component;
 
+import com.vaccine.fetcher.vaccine.config.VaccineCriteriaConfig;
 import com.vaccine.fetcher.vaccine.model.AvailableVaccineSession;
 import com.vaccine.fetcher.vaccine.model.GetVaccineAvailabilityResponse;
 import com.vaccine.fetcher.vaccine.repository.CowinRepository;
@@ -23,6 +24,9 @@ public class VaccineAvailabilityChecker {
   private List<Integer> pinCodes;
 
   @Resource
+  private VaccineCriteriaConfig vaccineCriteriaConfig;
+
+  @Resource
   private CowinRepository cowinRepository;
 
   @Resource
@@ -32,7 +36,8 @@ public class VaccineAvailabilityChecker {
   @Scheduled(fixedRateString = "60000")
   public void checkVaccineInformation() {
     logger.info("Querying vaccine availability for provided criteria");
-
+    logger.info("Vaccine cost {}, type {}, minAge {}, pin-codes {} ", vaccineCriteriaConfig.getVaccineCost(),
+        vaccineCriteriaConfig.getVaccineType(), vaccineCriteriaConfig.getVaccineMinAge(), pinCodes);
     for(Integer pinCode : pinCodes) {
       //Query for all pinCodes
       List<String> datesToQuery = getDatesToQuery();
