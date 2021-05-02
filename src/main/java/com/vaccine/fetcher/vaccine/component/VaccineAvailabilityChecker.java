@@ -1,8 +1,10 @@
 package com.vaccine.fetcher.vaccine.component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaccine.fetcher.vaccine.config.VaccineCriteriaConfig;
 import com.vaccine.fetcher.vaccine.model.AvailableVaccineSession;
 import com.vaccine.fetcher.vaccine.model.GetVaccineAvailabilityResponse;
+import com.vaccine.fetcher.vaccine.model.VaccineSession;
 import com.vaccine.fetcher.vaccine.repository.CowinRepository;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -53,8 +55,16 @@ public class VaccineAvailabilityChecker {
       }
 
       if(!compareResult(availableVaccineSessions)) {
-        logger.info("For pincode {} below are the sessions as per your criteria {}", pinCode,
-            availableVaccineSessions);
+        logger.info("For pincode {} below are the sessions as per your criteria", pinCode);
+        for(AvailableVaccineSession s : availableVaccineSessions) {
+          ObjectMapper mapper = new ObjectMapper();
+          try {
+            logger.info("{}",
+                mapper.writerWithDefaultPrettyPrinter().writeValueAsString(s));
+          }catch (Exception e) {
+            //ignore
+          }
+        }
         previousVaccineSessions = availableVaccineSessions;
       }else {
         logger.info("Nothing changed for vaccine sessions from last query for  {}", pinCode);
