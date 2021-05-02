@@ -1,10 +1,10 @@
 package com.vaccine.fetcher.vaccine.config;
 
-import com.vaccine.fetcher.vaccine.rule.FreeVaccineRule;
-import com.vaccine.fetcher.vaccine.rule.VaccineAgeRule;
-import com.vaccine.fetcher.vaccine.rule.VaccineAvailabilityRule;
-import com.vaccine.fetcher.vaccine.rule.VaccineCountRule;
-import com.vaccine.fetcher.vaccine.rule.VaccineTypeRule;
+import com.vaccine.fetcher.vaccine.criteria.FreeVaccineCriteria;
+import com.vaccine.fetcher.vaccine.criteria.VaccineAgeCriteria;
+import com.vaccine.fetcher.vaccine.criteria.VaccineAvailabilityCriteria;
+import com.vaccine.fetcher.vaccine.criteria.VaccineCountCriteria;
+import com.vaccine.fetcher.vaccine.criteria.VaccineTypeCriteria;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
 
 @Data
 @Configuration
-public class VaccineRuleConfig {
+public class VaccineCriteriaConfig {
 
   @Value("${vaccine.type}")
   private String vaccineType;
@@ -25,24 +25,24 @@ public class VaccineRuleConfig {
   @Value("${vaccine.minAge}")
   private Integer vaccineMinAge;
 
-  public List<VaccineAvailabilityRule> findVaccineRules() {
-    List<VaccineAvailabilityRule> rules = new ArrayList<>();
+  public List<VaccineAvailabilityCriteria> findVaccineCriteria() {
+    List<VaccineAvailabilityCriteria> rules = new ArrayList<>();
 
     if(StringUtils.hasText(vaccineType)) {
       if(vaccineType.equals("COVAXIN") || vaccineType.equals("COVISHIELD")) {
-       rules.add(new VaccineTypeRule(vaccineType));
+       rules.add(new VaccineTypeCriteria(vaccineType));
       }
     }
     if(StringUtils.hasText(vaccineCost)) {
       if(vaccineCost.equals("FREE")) {
-        rules.add(new FreeVaccineRule(true));
+        rules.add(new FreeVaccineCriteria(true));
       } else if(vaccineCost.equals("PAID")) {
-        rules.add(new FreeVaccineRule(false));
+        rules.add(new FreeVaccineCriteria(false));
       }
     }
 
-    rules.add(new VaccineAgeRule(vaccineMinAge));
-    rules.add(new VaccineCountRule(1));
+    rules.add(new VaccineAgeCriteria(vaccineMinAge));
+    rules.add(new VaccineCountCriteria(1));
     return rules;
   }
 }

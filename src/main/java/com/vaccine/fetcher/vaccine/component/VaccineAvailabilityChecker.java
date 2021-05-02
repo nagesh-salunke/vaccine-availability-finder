@@ -26,11 +26,12 @@ public class VaccineAvailabilityChecker {
   private CowinRepository cowinRepository;
 
   @Resource
-  private VaccineAvailabilityRuleExecutor vaccineAvailabilityRuleExecutor;
+  private VaccineAvailabilityEngine vaccineAvailabilityEngine;
 
   //query every minute
   @Scheduled(fixedRateString = "60000")
   public void checkVaccineInformation() {
+    logger.info("Querying vaccine availability for provided criteria");
 
     for(Integer pinCode : pinCodes) {
       //Query for all pinCodes
@@ -40,8 +41,7 @@ public class VaccineAvailabilityChecker {
         GetVaccineAvailabilityResponse availabilityResponse = cowinRepository
             .queryVaccineAvailability(pinCode, date);
 
-        availableVaccineSessions.addAll(vaccineAvailabilityRuleExecutor
-            .execute(availabilityResponse.getCenters()));
+        availableVaccineSessions.addAll(vaccineAvailabilityEngine.findSessions(availabilityResponse.getCenters()));
       }
       logger.info("For pincode {} below are the sessions as per your criteria {}", pinCode,
           availableVaccineSessions);

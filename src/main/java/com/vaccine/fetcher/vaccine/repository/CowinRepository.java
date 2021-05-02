@@ -21,7 +21,7 @@ public class CowinRepository {
     String resourceUrl = cowinAvlURL + "pincode="+pinCode+"&date="+date;
     GetVaccineAvailabilityResponse availabilityResponse = restTemplate
         .getForObject(resourceUrl, GetVaccineAvailabilityResponse.class);
-    logger.info("Vaccine List for {} is {}", pinCode, availabilityResponse);
+    logger.debug("Vaccine List for {} is {}", pinCode, availabilityResponse);
     return availabilityResponse;
   }
 }

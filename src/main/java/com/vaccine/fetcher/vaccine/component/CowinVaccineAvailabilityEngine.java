@@ -1,10 +1,10 @@
 package com.vaccine.fetcher.vaccine.component;
 
-import com.vaccine.fetcher.vaccine.config.VaccineRuleConfig;
+import com.vaccine.fetcher.vaccine.config.VaccineCriteriaConfig;
 import com.vaccine.fetcher.vaccine.model.AvailableVaccineSession;
 import com.vaccine.fetcher.vaccine.model.VaccineCenter;
 import com.vaccine.fetcher.vaccine.model.VaccineSession;
-import com.vaccine.fetcher.vaccine.rule.VaccineAvailabilityRule;
+import com.vaccine.fetcher.vaccine.criteria.VaccineAvailabilityCriteria;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,25 +16,23 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CowinVaccineAvlRuleExecutor implements VaccineAvailabilityRuleExecutor {
-
-  //all rules obtained as from config
+public class CowinVaccineAvailabilityEngine implements VaccineAvailabilityEngine {
 
   @Resource
-  private VaccineRuleConfig vaccineRuleConfig;
+  private VaccineCriteriaConfig vaccineCriteriaConfig;
 
   @Override
-  public List<AvailableVaccineSession> execute(List<VaccineCenter> vaccineCenters) {
+  public List<AvailableVaccineSession> findSessions(List<VaccineCenter> vaccineCenters) {
 
-    List<VaccineAvailabilityRule> vaccineRules = vaccineRuleConfig.findVaccineRules();
+    List<VaccineAvailabilityCriteria> vaccineCriteria = vaccineCriteriaConfig.findVaccineCriteria();
 
     //for each center identify all sessions that match "all" rules
     List<AvailableVaccineSession> availableVaccineSessions = new ArrayList<>();
 
     for(VaccineCenter vaccineCenter : vaccineCenters) {
       Set<String> matchingSessions = new HashSet<>();
-      for(VaccineAvailabilityRule rule : vaccineRules) {
-        List<String> results = rule.execute(vaccineCenter);
+      for(VaccineAvailabilityCriteria criteria : vaccineCriteria) {
+        List<String> results = criteria.apply(vaccineCenter);
         if(matchingSessions.size() == 0) {
           matchingSessions.addAll(results);
         } else {

@@ -1,20 +1,20 @@
-package com.vaccine.fetcher.vaccine.rule;
+package com.vaccine.fetcher.vaccine.criteria;
 
 import com.vaccine.fetcher.vaccine.model.VaccineCenter;
 import com.vaccine.fetcher.vaccine.model.VaccineSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class VaccineCountRule implements VaccineAvailabilityRule {
+public class VaccineCountCriteria implements VaccineAvailabilityCriteria {
 
   private Integer minAvailable;
 
-  public VaccineCountRule(Integer minAvailable) {
+  public VaccineCountCriteria(Integer minAvailable) {
     this.minAvailable = minAvailable;
   }
 
   @Override
-  public List<String> execute(VaccineCenter vaccineCenter) {
+  public List<String> apply(VaccineCenter vaccineCenter) {
     //apply type on the center and return matching
     return vaccineCenter.getSessions()
         .stream()

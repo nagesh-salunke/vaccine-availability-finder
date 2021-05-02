@@ -4,7 +4,7 @@ import com.vaccine.fetcher.vaccine.model.AvailableVaccineSession;
 import com.vaccine.fetcher.vaccine.model.VaccineCenter;
 import java.util.List;
 
-public interface VaccineAvailabilityRuleExecutor {
+public interface VaccineAvailabilityEngine {
 
-  List<AvailableVaccineSession> execute(List<VaccineCenter> vaccineCenters);
+  List<AvailableVaccineSession> findSessions(List<VaccineCenter> vaccineCenters);
 }
