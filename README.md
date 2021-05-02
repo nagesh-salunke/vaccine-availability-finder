@@ -11,4 +11,4 @@ java -jar vaccine-alert-0.0.1-SNAPSHOT.jar --vaccine.pincodes=411045 --vaccine.c
 vaccine.pincode: 411001,411002  
 vaccine.type: COVAXIN/COVISHIELD/ANY  
 vaccine.minAge: 18/45  
-vacchine.cost: FREE/PAID/ANY
+vaccine.cost: FREE/PAID/ANY
