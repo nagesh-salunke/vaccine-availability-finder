@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaccine.fetcher.vaccine.config.VaccineCriteriaConfig;
 import com.vaccine.fetcher.vaccine.model.AvailableVaccineSession;
 import com.vaccine.fetcher.vaccine.model.GetVaccineAvailabilityResponse;
-import com.vaccine.fetcher.vaccine.model.VaccineSession;
 import com.vaccine.fetcher.vaccine.repository.CowinRepository;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -16,11 +16,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 @Component
 public class VaccineAvailabilityChecker {
 
   private static final Logger logger = LoggerFactory.getLogger(VaccineAvailabilityChecker.class);
+
+  private static final String SOUND_FILENAME = "alarm.wav";
 
   @Value("#{'${vaccine.pincodes}'.split(',')}")
   private List<Integer> pinCodes;
@@ -61,6 +65,7 @@ public class VaccineAvailabilityChecker {
           try {
             logger.info("{}",
                 mapper.writerWithDefaultPrettyPrinter().writeValueAsString(s));
+            playSound();
           }catch (Exception e) {
             //ignore
           }
@@ -70,6 +75,19 @@ public class VaccineAvailabilityChecker {
         logger.info("Nothing changed for vaccine sessions from last query for  {}", pinCode);
       }
     }
+  }
+
+  private void playSound() {
+      try
+      {
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(SOUND_FILENAME);
+        AudioStream audioStream = new AudioStream(inputStream);
+        AudioPlayer.player.start(audioStream);
+      }
+      catch (Exception e){
+       // doesn't matter
+        e.printStackTrace();
+      }
   }
 
   private boolean compareResult(List<AvailableVaccineSession> availableVaccineSessions) {
