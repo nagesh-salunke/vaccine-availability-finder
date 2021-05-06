@@ -18,7 +18,7 @@ public class VaccineAgeCriteria implements VaccineAvailabilityCriteria {
     //apply type on the center and return matching
     return vaccineCenter.getSessions()
         .stream()
-        .filter(k -> (k.getMinAgeLimit() <= minAge) )
+        .filter(k -> (k.getMinAgeLimit() == minAge) )
         .map(VaccineSession::getSessionId)
         .collect(Collectors.toList());
   }
