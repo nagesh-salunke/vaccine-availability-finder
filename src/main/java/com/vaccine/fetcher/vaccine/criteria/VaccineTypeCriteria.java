@@ -18,7 +18,7 @@ public class VaccineTypeCriteria implements VaccineAvailabilityCriteria {
     //apply type on the center and return matching
     return vaccineCenter.getSessions()
         .stream()
-        .filter(k -> type.equals(k))
+        .filter(k -> type.equals(k.getVaccine()))
         .map(VaccineSession::getSessionId)
         .collect(Collectors.toList());
   }

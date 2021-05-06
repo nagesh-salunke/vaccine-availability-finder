@@ -23,7 +23,7 @@ public class VaccineCriteriaConfig {
   private String vaccineCost;
 
   @Value("${vaccine.minAge}")
-  private Integer vaccineMinAge;
+  private String vaccineMinAge;
 
   public List<VaccineAvailabilityCriteria> findVaccineCriteria() {
     List<VaccineAvailabilityCriteria> rules = new ArrayList<>();
@@ -41,7 +41,7 @@ public class VaccineCriteriaConfig {
       }
     }
 
-    rules.add(new VaccineAgeCriteria(vaccineMinAge));
+    rules.add(new VaccineAgeCriteria(Integer.valueOf(vaccineMinAge)));
     rules.add(new VaccineCountCriteria(1));
     return rules;
   }
